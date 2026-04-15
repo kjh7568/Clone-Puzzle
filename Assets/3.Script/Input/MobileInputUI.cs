@@ -10,6 +10,7 @@ public class MobileInputUI : MonoBehaviour, IInputProvider
     [SerializeField] private VirtualJoystick joystick;
 
     private bool _jumpLatched;
+    private bool _interactLatched;
 
     public Vector2 MoveDirection => joystick != null ? joystick.Direction : Vector2.zero;
 
@@ -21,10 +22,25 @@ public class MobileInputUI : MonoBehaviour, IInputProvider
         _jumpLatched = true;
     }
 
+    /// <summary>
+    /// 인터랙트 버튼 Button 컴포넌트의 onClick에 인스펙터에서 연결.
+    /// </summary>
+    public void OnInteractPressed()
+    {
+        _interactLatched = true;
+    }
+
     public bool ConsumeJump()
     {
         if (!_jumpLatched) return false;
         _jumpLatched = false;
+        return true;
+    }
+
+    public bool ConsumeInteract()
+    {
+        if (!_interactLatched) return false;
+        _interactLatched = false;
         return true;
     }
 }

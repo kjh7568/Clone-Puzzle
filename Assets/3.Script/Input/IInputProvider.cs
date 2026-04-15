@@ -11,4 +11,7 @@ public interface IInputProvider
 
     /// <summary>점프 입력. FixedUpdate에서 소비(Consume)되면 자동 해제.</summary>
     bool ConsumeJump();
+
+    /// <summary>인터랙트 입력. 소비 후 자동 해제.</summary>
+    bool ConsumeInteract();
 }
