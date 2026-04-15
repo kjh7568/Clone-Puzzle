@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"D:/GitHub/Clone Puzzle/Assets/3.Script/Interface\")",
+      "Bash(mkdir -p \"D:/GitHub/Clone Puzzle/Assets/3.Script/Test\")",
+      "Bash(mv \"D:/GitHub/Clone Puzzle/Assets/3.Script/Input/IInputProvider.cs\" \"D:/GitHub/Clone Puzzle/Assets/3.Script/Interface/IInputProvider.cs\")",
+      "Bash(mv \"D:/GitHub/Clone Puzzle/Assets/3.Script/Input/IInputProvider.cs.meta\" \"D:/GitHub/Clone Puzzle/Assets/3.Script/Interface/IInputProvider.cs.meta\")",
+      "Bash(mv \"D:/GitHub/Clone Puzzle/Assets/3.Script/Recording/IRecordable.cs\" \"D:/GitHub/Clone Puzzle/Assets/3.Script/Interface/IRecordable.cs\")",
+      "Bash(mv \"D:/GitHub/Clone Puzzle/Assets/3.Script/Recording/IRecordable.cs.meta\" \"D:/GitHub/Clone Puzzle/Assets/3.Script/Interface/IRecordable.cs.meta\")",
+      "Bash(mv \"D:/GitHub/Clone Puzzle/Assets/3.Script/PlayerAnimatorController.cs\" \"D:/GitHub/Clone Puzzle/Assets/3.Script/Actor/PlayerAnimatorController.cs\")",
+      "Bash(cat)"
+    ]
+  }
+}
