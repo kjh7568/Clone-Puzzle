@@ -23,7 +23,8 @@ public class PlayerController : Actor
         inputRecorder.SetInput(
             mobileInput.MoveDirection,
             mobileInput.ConsumeJump(),
-            mobileInput.ConsumeInteract()
+            mobileInput.ConsumeInteract(),
+            mobileInput.ConsumeCarry()
         );
     }
 }

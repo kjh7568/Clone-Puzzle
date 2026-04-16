@@ -14,4 +14,7 @@ public interface IInputProvider
 
     /// <summary>인터랙트 입력. 소비 후 자동 해제.</summary>
     bool ConsumeInteract();
+
+    /// <summary>캐리(집기/내려놓기) 입력. 소비 후 자동 해제.</summary>
+    bool ConsumeCarry();
 }

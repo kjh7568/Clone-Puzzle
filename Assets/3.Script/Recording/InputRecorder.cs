@@ -14,8 +14,10 @@ public class InputRecorder : MonoBehaviour, IInputProvider, IRecordable
     private Vector2 _moveDirection;
     private bool _jumpPressed;     // Actor용 — ConsumeJump()로 소비
     private bool _interactPressed; // Actor용 — ConsumeInteract()로 소비
+    private bool _carryPressed;    // Actor용 — ConsumeCarry()로 소비
     private bool _jumpRecord;      // 녹화용 — FixedUpdate 기록 후에만 초기화
     private bool _interactRecord;  // 녹화용 — FixedUpdate 기록 후에만 초기화
+    private bool _carryRecord;     // 녹화용 — FixedUpdate 기록 후에만 초기화
 
     // ── 녹화 상태 ────────────────────────────────────────────────────────
     private List<FrameInput> _recordedFrames = new();
@@ -37,6 +39,13 @@ public class InputRecorder : MonoBehaviour, IInputProvider, IRecordable
     {
         bool value = _interactPressed;
         _interactPressed = false;
+        return value;
+    }
+
+    public bool ConsumeCarry()
+    {
+        bool value = _carryPressed;
+        _carryPressed = false;
         return value;
     }
 
@@ -65,11 +74,12 @@ public class InputRecorder : MonoBehaviour, IInputProvider, IRecordable
     /// 모바일 입력 레이어(MobileInputUI 등)에서 매 프레임 호출.
     /// jump·interact는 누른 순간만 true로 전달해야 한다.
     /// </summary>
-    public void SetInput(Vector2 move, bool jump, bool interact)
+    public void SetInput(Vector2 move, bool jump, bool interact, bool carry)
     {
         _moveDirection = move;
         if (jump)    { _jumpPressed    = true; _jumpRecord    = true; }
         if (interact) { _interactPressed = true; _interactRecord = true; }
+        if (carry)    { _carryPressed   = true; _carryRecord   = true; }
     }
 
     // ── 녹화 루프 ────────────────────────────────────────────────────────
@@ -92,10 +102,12 @@ public class InputRecorder : MonoBehaviour, IInputProvider, IRecordable
             moveDirection   = _moveDirection,
             jumpPressed     = _jumpRecord,
             interactPressed = _interactRecord,
+            carryPressed    = _carryRecord,
         });
 
-        // 기록 후 초기화 — ConsumeJump() 호출 순서와 무관하게 정확히 1회만 기록됨
-        _jumpRecord    = false;
+        // 기록 후 초기화 — Consume 호출 순서와 무관하게 정확히 1회만 기록됨
+        _jumpRecord     = false;
         _interactRecord = false;
+        _carryRecord    = false;
     }
 }

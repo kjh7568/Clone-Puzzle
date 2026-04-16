@@ -77,6 +77,7 @@ public class ClonePlayback : Actor
         private FrameInput _current;
         private bool _pendingJump;
         private bool _pendingInteract;
+        private bool _pendingCarry;
 
         /// <inheritdoc/>
         public Vector2 MoveDirection => _current.moveDirection;
@@ -97,6 +98,14 @@ public class ClonePlayback : Actor
             return true;
         }
 
+        /// <inheritdoc/>
+        public bool ConsumeCarry()
+        {
+            if (!_pendingCarry) return false;
+            _pendingCarry = false;
+            return true;
+        }
+
         /// <summary>프레임 목록을 설정하고 재생 커서를 초기화한다.</summary>
         public void SetFrames(List<FrameInput> frames)
         {
@@ -111,6 +120,7 @@ public class ClonePlayback : Actor
             _current = default;
             _pendingJump = false;
             _pendingInteract = false;
+            _pendingCarry = false;
         }
 
         /// <summary>
@@ -125,8 +135,9 @@ public class ClonePlayback : Actor
             while (_index < _frames.Count && _frames[_index].timestamp <= elapsedTime)
             {
                 _current = _frames[_index];
-                if (_current.jumpPressed)    _pendingJump    = true;
+                if (_current.jumpPressed)     _pendingJump    = true;
                 if (_current.interactPressed) _pendingInteract = true;
+                if (_current.carryPressed)    _pendingCarry   = true;
                 _index++;
             }
 

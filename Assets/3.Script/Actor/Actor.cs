@@ -17,6 +17,13 @@ public class Actor : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.1f;
     [SerializeField] private LayerMask groundLayer;
 
+    [Header("Carry")]
+    [SerializeField] private Transform carryAnchor;
+
+    public Transform CarryAnchor => carryAnchor;
+    public ICarryable CarriedObject { get; protected set; }
+    public Vector2 FacingDirection { get; private set; } = Vector2.right;
+
     protected IInputProvider InputProvider;
 
     private Rigidbody2D _rb;
@@ -41,6 +48,18 @@ public class Actor : MonoBehaviour
         InputProvider = provider;
     }
 
+    /// <summary>CarrySystem에서 CarriedObject를 갱신할 때 사용.</summary>
+    public void SetCarriedObject(ICarryable carryable)
+    {
+        CarriedObject = carryable;
+    }
+
+    /// <summary>InputProvider에서 캐리 입력을 소비해 반환. InputProvider가 없으면 false.</summary>
+    public bool ConsumeCarry()
+    {
+        return InputProvider?.ConsumeCarry() ?? false;
+    }
+
     private void CheckGround()
     {
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
@@ -48,6 +67,9 @@ public class Actor : MonoBehaviour
 
     private void ApplyMove(Vector2 direction)
     {
+        if (direction.x != 0f)
+            FacingDirection = direction.x > 0f ? Vector2.right : Vector2.left;
+
         _rb.linearVelocity = new Vector2(direction.x * moveSpeed, _rb.linearVelocity.y);
     }
 
@@ -55,7 +77,8 @@ public class Actor : MonoBehaviour
     {
         if (jumpConsumed && _isGrounded)
         {
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpForce);
+            float force = CarriedObject != null ? jumpForce * 0.5f : jumpForce;
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, force);
         }
     }
 
