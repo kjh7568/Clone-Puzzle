@@ -79,6 +79,16 @@ public class ToggleButton : ButtonBase
             OnInteractExit(actor);
     }
 
+    // ── IResettable override ─────────────────────────────────────────
+
+    public override void ResetState()
+    {
+        _toggleState = false;
+        _cooldownTracker.Clear();
+        activeActors.Clear();
+        UpdateVisual();
+    }
+
     // ── ButtonBase 추상 구현 ─────────────────────────────────────────
 
     protected override void OnActivated()   => UpdateVisual();

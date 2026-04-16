@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class CarryBox : MonoBehaviour, ICarryable
+public class CarryBox : MonoBehaviour, ICarryable, IResettable
 {
     private Rigidbody2D _rb;
     private BoxCollider2D _col;
@@ -60,11 +60,33 @@ public class CarryBox : MonoBehaviour, ICarryable
         _isCarried = false;
     }
 
+    // ── IResettable ──────────────────────────────────────────────
+
+    private Vector3 _initialPosition;
+
+    public void SaveInitialState() => _initialPosition = transform.position;
+
+    public void ResetState()
+    {
+        if (_isCarried)
+        {
+            transform.SetParent(null);
+            _isCarried = false;
+            _carrier = null;
+        }
+
+        transform.position = _initialPosition;
+        _rb.isKinematic = false;
+        _rb.linearVelocity = Vector2.zero;
+        _col.enabled = true;
+    }
+
     // ── Unity ───────────────────────────────────────────────────
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<BoxCollider2D>();
+        _initialPosition = transform.position;
     }
 }

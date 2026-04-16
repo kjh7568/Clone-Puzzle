@@ -18,4 +18,7 @@ public struct FrameInput
 
     /// <summary>이 프레임에 인터랙트 버튼이 눌렸는지 여부</summary>
     public bool interactPressed;
+
+    /// <summary>이 프레임에 캐리(집기/내려놓기) 버튼이 눌렸는지 여부</summary>
+    public bool carryPressed;
 }

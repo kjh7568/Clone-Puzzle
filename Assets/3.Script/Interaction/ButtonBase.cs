@@ -7,7 +7,7 @@ using UnityEngine.Events;
 /// 현재 올라서 있는 Actor 목록을 관리하고, 활성/비활성 전환 시
 /// 추상 메서드와 UnityEvent를 통해 하위 클래스·인스펙터에 통보한다.
 /// </summary>
-public abstract class ButtonBase : MonoBehaviour, IInteractable
+public abstract class ButtonBase : MonoBehaviour, IInteractable, IResettable
 {
     [Header("Button Events")]
     public UnityEvent OnActivate;
@@ -49,6 +49,21 @@ public abstract class ButtonBase : MonoBehaviour, IInteractable
 
     /// <summary>하나 이상의 Actor가 버튼을 누르고 있으면 true.</summary>
     public virtual bool IsActive => activeActors.Count > 0;
+
+    // ── IResettable ──────────────────────────────────────────────────────
+
+    public virtual void SaveInitialState() { }
+
+    /// <summary>
+    /// activeActors를 비우고 비활성 비주얼을 복원한다.
+    /// 이벤트(OnDeactivate UnityEvent)는 발행하지 않는다.
+    /// </summary>
+    public virtual void ResetState()
+    {
+        bool wasActive = IsActive;
+        activeActors.Clear();
+        if (wasActive) OnDeactivated(); // 비주얼 복원만, UnityEvent 미발행
+    }
 
     // ── 하위 클래스 구현 대상 ────────────────────────────────────────
 

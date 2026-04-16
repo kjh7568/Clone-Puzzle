@@ -29,6 +29,8 @@ public class Actor : MonoBehaviour
     private Rigidbody2D _rb;
     private bool _isGrounded;
 
+    protected Rigidbody2D Rb => _rb;
+
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();

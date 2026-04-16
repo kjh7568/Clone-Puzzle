@@ -7,7 +7,7 @@ using UnityEngine.Events;
 /// IInteractable을 구현하지 않으며, ButtonBase와의 연결은 Inspector UnityEvent로만 처리한다.
 /// 열릴 때 DOTween으로 Y축 이동, 닫힐 때 원위치로 복귀.
 /// </summary>
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour, IResettable
 {
     [Header("Animation")]
     [SerializeField] private float openOffsetY = 2f;
@@ -59,4 +59,16 @@ public class Door : MonoBehaviour
 
     /// <summary>현재 열려 있는지 반환.</summary>
     public bool IsOpen => _isOpen;
+
+    // ── IResettable ──────────────────────────────────────────────
+
+    public void SaveInitialState() { } // _closedPosition을 Awake에서 이미 저장
+
+    public void ResetState()
+    {
+        DOTween.Kill(transform);
+        _isOpen = false;
+        transform.position = _closedPosition;
+        if (_collider != null) _collider.enabled = true;
+    }
 }
