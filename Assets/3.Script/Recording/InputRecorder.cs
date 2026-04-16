@@ -12,8 +12,10 @@ public class InputRecorder : MonoBehaviour, IInputProvider, IRecordable
 
     // ── 입력 상태 (외부에서 SetInput으로 주입) ──────────────────────────
     private Vector2 _moveDirection;
-    private bool _jumpPressed;
-    private bool _interactPressed;
+    private bool _jumpPressed;     // Actor용 — ConsumeJump()로 소비
+    private bool _interactPressed; // Actor용 — ConsumeInteract()로 소비
+    private bool _jumpRecord;      // 녹화용 — FixedUpdate 기록 후에만 초기화
+    private bool _interactRecord;  // 녹화용 — FixedUpdate 기록 후에만 초기화
 
     // ── 녹화 상태 ────────────────────────────────────────────────────────
     private List<FrameInput> _recordedFrames = new();
@@ -66,8 +68,8 @@ public class InputRecorder : MonoBehaviour, IInputProvider, IRecordable
     public void SetInput(Vector2 move, bool jump, bool interact)
     {
         _moveDirection = move;
-        if (jump) _jumpPressed = true;       // OR-accumulate: 놓치지 않도록
-        if (interact) _interactPressed = true;
+        if (jump)    { _jumpPressed    = true; _jumpRecord    = true; }
+        if (interact) { _interactPressed = true; _interactRecord = true; }
     }
 
     // ── 녹화 루프 ────────────────────────────────────────────────────────
@@ -86,10 +88,14 @@ public class InputRecorder : MonoBehaviour, IInputProvider, IRecordable
 
         _recordedFrames.Add(new FrameInput
         {
-            timestamp      = elapsed,
-            moveDirection  = _moveDirection,
-            jumpPressed    = _jumpPressed,
-            interactPressed = _interactPressed,
+            timestamp       = elapsed,
+            moveDirection   = _moveDirection,
+            jumpPressed     = _jumpRecord,
+            interactPressed = _interactRecord,
         });
+
+        // 기록 후 초기화 — ConsumeJump() 호출 순서와 무관하게 정확히 1회만 기록됨
+        _jumpRecord    = false;
+        _interactRecord = false;
     }
 }
