@@ -19,7 +19,7 @@ public abstract class ButtonBase : MonoBehaviour, IInteractable
 
     public virtual bool CanInteract(Actor actor) => true;
 
-    public void OnInteractEnter(Actor actor)
+    public virtual void OnInteractEnter(Actor actor)
     {
         if (!CanInteract(actor)) return;
         if (activeActors.Contains(actor)) return;
@@ -34,7 +34,7 @@ public abstract class ButtonBase : MonoBehaviour, IInteractable
         }
     }
 
-    public void OnInteractExit(Actor actor)
+    public virtual void OnInteractExit(Actor actor)
     {
         if (!activeActors.Remove(actor)) return;
 
@@ -48,7 +48,7 @@ public abstract class ButtonBase : MonoBehaviour, IInteractable
     // ── 상태 ────────────────────────────────────────────────────────
 
     /// <summary>하나 이상의 Actor가 버튼을 누르고 있으면 true.</summary>
-    public bool IsActive => activeActors.Count > 0;
+    public virtual bool IsActive => activeActors.Count > 0;
 
     // ── 하위 클래스 구현 대상 ────────────────────────────────────────
 
