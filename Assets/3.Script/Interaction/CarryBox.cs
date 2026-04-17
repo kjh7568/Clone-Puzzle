@@ -36,7 +36,10 @@ public class CarryBox : MonoBehaviour, ICarryable, IResettable
         _isCarried = true;
 
         _rb.isKinematic = true;
-        _col.enabled = false;
+
+        // 콜라이더를 켜둔 채로 carrier 본체와의 충돌만 무시
+        Collider2D carrierCol = carrier.GetComponent<Collider2D>();
+        if (carrierCol != null) Physics2D.IgnoreCollision(_col, carrierCol, true);
 
         transform.SetParent(carrier.CarryAnchor);
         transform.position = carrier.CarryAnchor.position;
@@ -50,11 +53,14 @@ public class CarryBox : MonoBehaviour, ICarryable, IResettable
     {
         if (!_isCarried) return;
 
+        // carrier와의 충돌 무시 해제
+        Collider2D carrierCol = _carrier.GetComponent<Collider2D>();
+        if (carrierCol != null) Physics2D.IgnoreCollision(_col, carrierCol, false);
+
         transform.SetParent(null);
         transform.position = position;
 
         _rb.isKinematic = false;
-        _col.enabled = true;
 
         _carrier = null;
         _isCarried = false;
@@ -70,6 +76,9 @@ public class CarryBox : MonoBehaviour, ICarryable, IResettable
     {
         if (_isCarried)
         {
+            Collider2D carrierCol = _carrier?.GetComponent<Collider2D>();
+            if (carrierCol != null) Physics2D.IgnoreCollision(_col, carrierCol, false);
+
             transform.SetParent(null);
             _isCarried = false;
             _carrier = null;
