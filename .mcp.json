@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "serena": {
+      "command": "C:\\Users\\Game\\.local\\bin\\uv.exe",
+      "args": [
+        "--directory",
+        "D:\\GitHub\\serena",
+        "run",
+        "serena",
+        "start-mcp-server",
+        "--project",
+        "D:\\GitHub\\Clone Puzzle"
+      ]
+    }
+  }
+}

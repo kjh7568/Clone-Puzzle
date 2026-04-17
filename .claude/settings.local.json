@@ -8,7 +8,12 @@
       "Bash(mv \"D:/GitHub/Clone Puzzle/Assets/3.Script/Recording/IRecordable.cs\" \"D:/GitHub/Clone Puzzle/Assets/3.Script/Interface/IRecordable.cs\")",
       "Bash(mv \"D:/GitHub/Clone Puzzle/Assets/3.Script/Recording/IRecordable.cs.meta\" \"D:/GitHub/Clone Puzzle/Assets/3.Script/Interface/IRecordable.cs.meta\")",
       "Bash(mv \"D:/GitHub/Clone Puzzle/Assets/3.Script/PlayerAnimatorController.cs\" \"D:/GitHub/Clone Puzzle/Assets/3.Script/Actor/PlayerAnimatorController.cs\")",
-      "Bash(cat)"
+      "Bash(cat)",
+      "mcp__UnityMCP__manage_editor",
+      "mcp__UnityMCP__read_console"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "serena"
+  ]
 }
