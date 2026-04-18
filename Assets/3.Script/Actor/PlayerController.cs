@@ -9,9 +9,9 @@ using UnityEngine;
 public class PlayerController : Actor, IResettable
 {
     [Header("Input")]
-    [SerializeField] private MobileInputUI mobileInput;
     [SerializeField] private InputRecorder inputRecorder;
 
+    private MobileInputUI _mobileInput;
     private Vector3 _initialPosition;
 
     protected override void Awake()
@@ -19,6 +19,9 @@ public class PlayerController : Actor, IResettable
         base.Awake();
         SetInputProvider(inputRecorder);
         _initialPosition = transform.position;
+        _mobileInput = FindObjectOfType<MobileInputUI>();
+        if (_mobileInput == null)
+            Debug.LogWarning("[PlayerController] MobileInputUI를 찾을 수 없습니다.");
     }
 
     // ── IResettable ──────────────────────────────────────────────────────
@@ -34,11 +37,12 @@ public class PlayerController : Actor, IResettable
 
     private void Update()
     {
+        if (_mobileInput == null) return;
         inputRecorder.SetInput(
-            mobileInput.MoveDirection,
-            mobileInput.ConsumeJump(),
-            mobileInput.ConsumeInteract(),
-            mobileInput.ConsumeCarry()
+            _mobileInput.MoveDirection,
+            _mobileInput.ConsumeJump(),
+            _mobileInput.ConsumeInteract(),
+            _mobileInput.ConsumeCarry()
         );
     }
 }
