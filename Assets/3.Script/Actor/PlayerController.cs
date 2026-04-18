@@ -11,7 +11,7 @@ public class PlayerController : Actor, IResettable
     [Header("Input")]
     [SerializeField] private InputRecorder inputRecorder;
 
-    private MobileInputUI _mobileInput;
+    private UIManager _mobileInput;
     private Vector3 _initialPosition;
 
     protected override void Awake()
@@ -19,9 +19,9 @@ public class PlayerController : Actor, IResettable
         base.Awake();
         SetInputProvider(inputRecorder);
         _initialPosition = transform.position;
-        _mobileInput = FindObjectOfType<MobileInputUI>();
+        _mobileInput = FindFirstObjectByType<UIManager>();
         if (_mobileInput == null)
-            Debug.LogWarning("[PlayerController] MobileInputUI를 찾을 수 없습니다.");
+            Debug.LogWarning("[PlayerController] UIManager를 찾을 수 없습니다.");
     }
 
     // ── IResettable ──────────────────────────────────────────────────────

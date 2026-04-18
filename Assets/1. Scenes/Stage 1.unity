@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cca742ddaa9d644e9893379b8890019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloneManager
-  inputRecorder: {fileID: 0}
+  inputRecorder: {fileID: 1893271368}
   clonePrefab: {fileID: 5304507332989068904, guid: 7e59c67b93191474585dba565b4aec61, type: 3}
-  cloneSpawnPoint: {fileID: 0}
+  cloneSpawnPoint: {fileID: 1893271373}
 --- !u!4 &54361685
 Transform:
   m_ObjectHideFlags: 0
@@ -789,6 +789,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1132677421 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2284883534801503529, guid: 0a11c8e070a286f46b8cef810b8ced2f, type: 3}
+  m_PrefabInstance: {fileID: 1529703808}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1170324139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3555707829077574740, guid: e1bccd5403e8b5f4cab4346d9e817055, type: 3}
@@ -1294,6 +1299,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6667886352412761704, guid: 0a11c8e070a286f46b8cef810b8ced2f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1132677421}
     - target: {fileID: 7589699110810570431, guid: 0a11c8e070a286f46b8cef810b8ced2f, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -1455,6 +1464,22 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3555707829077574740, guid: e1bccd5403e8b5f4cab4346d9e817055, type: 3}
   m_PrefabInstance: {fileID: 1552235010}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1893271368 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 758425178261434596, guid: fe92fc4c9811bdd48aa7f5eef0605cc4, type: 3}
+  m_PrefabInstance: {fileID: 1526602727}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f65101e37e3e084b8aba6c3bb405f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputRecorder
+--- !u!4 &1893271373 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7526909524521882236, guid: fe92fc4c9811bdd48aa7f5eef0605cc4, type: 3}
+  m_PrefabInstance: {fileID: 1526602727}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2041406962 stripped
 Transform:
