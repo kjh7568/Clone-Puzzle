@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// 클론 생성·리셋·재생을 총괄하는 매니저.
@@ -18,10 +17,6 @@ public class CloneManager : MonoBehaviour
     [SerializeField] private ClonePlayback clonePrefab;
     [SerializeField] private Transform cloneSpawnPoint;
 
-    [Header("UI")]
-    [SerializeField] private Button createButton;
-    [SerializeField] private Button endCreationButton;
-
     private readonly List<List<FrameInput>> _allRecordedData = new();
     private readonly List<ClonePlayback> _activeClones = new();
     private IResettable[] _resettables;
@@ -36,8 +31,6 @@ public class CloneManager : MonoBehaviour
 
         foreach (var r in _resettables)
             r.SaveInitialState();
-
-        SetButtonState(isRecording: false);
 
         Debug.Log($"[CloneManager] 초기화 완료 — IResettable {_resettables.Length}개 등록");
     }
@@ -55,7 +48,6 @@ public class CloneManager : MonoBehaviour
         ResetAll();
         inputRecorder.StartRecording();
         _isRecording = true;
-        SetButtonState(isRecording: true);
 
         Debug.Log($"[CloneManager] 녹화 시작 | 현재 클론 수: {_allRecordedData.Count}");
     }
@@ -70,7 +62,6 @@ public class CloneManager : MonoBehaviour
 
         _isRecording = false;
         inputRecorder.StopRecording();
-        SetButtonState(isRecording: false);
 
         // 녹화 데이터 복사 저장 (InputRecorder 버퍼 재사용 방지)
         _allRecordedData.Add(new List<FrameInput>(inputRecorder.GetRecordedData()));
@@ -81,12 +72,6 @@ public class CloneManager : MonoBehaviour
     }
 
     // ── 내부 ─────────────────────────────────────────────────────────────
-
-    private void SetButtonState(bool isRecording)
-    {
-        if (createButton != null)      createButton.gameObject.SetActive(!isRecording);
-        if (endCreationButton != null) endCreationButton.gameObject.SetActive(isRecording);
-    }
 
     private void ResetAll()
     {

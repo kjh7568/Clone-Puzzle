@@ -18,8 +18,8 @@ public class ScaleWeightSource : MonoBehaviour
 
     private void Awake()
     {
-        _collider = GetComponent<Collider2D>();
-        _actor = GetComponent<Actor>();
+        _collider  = GetComponent<Collider2D>();
+        _actor     = GetComponent<Actor>();
         _carryable = GetComponent<ICarryable>();
     }
 
@@ -40,7 +40,6 @@ public class ScaleWeightSource : MonoBehaviour
                 Unregister();
                 _currentPlatform = found;
             }
-            // 등록 또는 weight 갱신 (캐리 상태 변화 반영)
             found.Register(this, GetWeight());
         }
         else
@@ -89,8 +88,8 @@ public class ScaleWeightSource : MonoBehaviour
         _currentPlatform = null;
     }
 
-    private void OnDisable() => Unregister();
-    private void OnDestroy() => Unregister();
+    private void OnDisable()  => Unregister();
+    private void OnDestroy()  => Unregister();
 
     private void OnDrawGizmosSelected()
     {

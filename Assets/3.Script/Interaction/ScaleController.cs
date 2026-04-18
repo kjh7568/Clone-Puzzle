@@ -40,7 +40,7 @@ public class ScaleController : MonoBehaviour
 
     private void MoveToward(Rigidbody2D rb, float targetY)
     {
-        float newY = Mathf.Lerp(rb.position.y, targetY, _moveSpeed * Time.fixedDeltaTime);
+        float newY = Mathf.MoveTowards(rb.position.y, targetY, _moveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(new Vector2(rb.position.x, newY));
     }
 }

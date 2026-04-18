@@ -9,7 +9,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
 {
     [SerializeField] private RectTransform background;
     [SerializeField] private RectTransform handle;
-    [SerializeField] private float handleRange = 1f;
+    [SerializeField] private float maxHandleDistance = 60f;
 
     public Vector2 Direction { get; private set; }
 
@@ -27,8 +27,9 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
             background, eventData.position, canvas.worldCamera, out Vector2 localPoint);
 
         Vector2 normalized = localPoint / (background.sizeDelta * 0.5f);
+        normalized.y = 0f;
         Direction = Vector2.ClampMagnitude(normalized, 1f);
-        handle.anchoredPosition = Direction * (background.sizeDelta * 0.5f * handleRange);
+        handle.anchoredPosition = new Vector2(Direction.x * maxHandleDistance, 0f);
     }
 
     public void OnPointerUp(PointerEventData eventData)
