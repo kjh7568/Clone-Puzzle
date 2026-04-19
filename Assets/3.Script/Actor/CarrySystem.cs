@@ -61,6 +61,7 @@ public class CarrySystem : MonoBehaviour
 
         nearest.OnPickedUp(_actor);
         _actor.SetCarriedObject(nearest);
+        _actor.DeductLifespan(_actor.CarryCost);
     }
 
     // ── 내려놓기 ────────────────────────────────────────────────────────────

@@ -16,6 +16,7 @@ public class CloneManager : MonoBehaviour
     [SerializeField] private StageData stageData;
 
     [Header("References")]
+    [SerializeField] private Actor playerActor;
     [SerializeField] private InputRecorder inputRecorder;
     [SerializeField] private ClonePlayback clonePrefab;
     [SerializeField] private Transform cloneSpawnPoint;
@@ -45,6 +46,9 @@ public class CloneManager : MonoBehaviour
     /// 씬을 리셋하고 플레이어 녹화를 시작한다.
     /// </summary>
     public bool CanCreateClone => stageData == null || _allRecordedData.Count < stageData.maxCloneCount;
+    public int CurrentCloneCount => _allRecordedData.Count;
+    public int RemainingCloneCount => stageData == null ? 0 : stageData.maxCloneCount - _allRecordedData.Count;
+    public int MaxCloneCount => stageData == null ? 0 : stageData.maxCloneCount;
 
     public void OnCreateClone()
     {
@@ -54,6 +58,8 @@ public class CloneManager : MonoBehaviour
             Debug.Log($"[CloneManager] 클론 수 제한 도달 ({stageData.maxCloneCount}개)");
             return;
         }
+
+        if (stageData != null) playerActor?.InitLifespan(stageData);
 
         ResetAll();
         inputRecorder.StartRecording();
@@ -71,6 +77,7 @@ public class CloneManager : MonoBehaviour
         if (!_isRecording) return;
 
         _isRecording = false;
+        playerActor?.ClearLifespan();
         inputRecorder.StopRecording();
 
         // 녹화 데이터 복사 저장 (InputRecorder 버퍼 재사용 방지)
@@ -105,6 +112,7 @@ public class CloneManager : MonoBehaviour
         foreach (var data in _allRecordedData)
         {
             ClonePlayback clone = Instantiate(clonePrefab, cloneSpawnPoint.position, Quaternion.identity);
+            if (stageData != null) clone.InitLifespan(stageData);
             clone.Play(data);
             _activeClones.Add(clone);
         }

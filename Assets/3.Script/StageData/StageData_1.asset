@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 131a4d789d48dd1408929678f1d417dd, type: 3}
   m_Name: StageData_1
   m_EditorClassIdentifier: Assembly-CSharp::StageData
-  maxCloneCount: 1
+  maxCloneCount: 2
+  maxLifespan: 100
+  moveCostPerSecond: 10
+  jumpCost: 5
+  carryCost: 8

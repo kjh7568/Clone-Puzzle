@@ -29,6 +29,18 @@ public class Actor : MonoBehaviour
     private Rigidbody2D _rb;
     private bool _isGrounded;
 
+    // ── 수명 ────────────────────────────────────────────────────────────────
+    private float _lifespan;
+    private float _maxLifespan;
+    private float _moveCostPerSecond;
+    private float _jumpCost;
+    private float _carryCost;
+    private bool _isDepleted;
+    private bool _lifespanInitialized;
+
+    public float LifespanRatio => _maxLifespan > 0f ? _lifespan / _maxLifespan : 1f;
+    public float CarryCost => _carryCost;
+
     protected Rigidbody2D Rb => _rb;
 
     protected virtual void Awake()
@@ -36,9 +48,38 @@ public class Actor : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    public void InitLifespan(StageData data)
+    {
+        _maxLifespan = data.maxLifespan;
+        _lifespan = data.maxLifespan;
+        _moveCostPerSecond = data.moveCostPerSecond;
+        _jumpCost = data.jumpCost;
+        _carryCost = data.carryCost;
+        _isDepleted = false;
+        _lifespanInitialized = true;
+    }
+
+    public void ClearLifespan()
+    {
+        _lifespanInitialized = false;
+        _isDepleted = false;
+    }
+
+    public void DeductLifespan(float amount)
+    {
+        if (!_lifespanInitialized || _isDepleted) return;
+        _lifespan = Mathf.Max(0f, _lifespan - amount);
+        if (_lifespan <= 0f)
+        {
+            _isDepleted = true;
+            _rb.linearVelocity = Vector2.zero;
+            Debug.Log($"[Actor] {gameObject.name} 수명 소진 — 동작 중단");
+        }
+    }
+
     protected virtual void FixedUpdate()
     {
-        if (InputProvider == null) return;
+        if (InputProvider == null || _isDepleted) return;
 
         CheckGround();
         ApplyMove(InputProvider.MoveDirection);
@@ -70,7 +111,10 @@ public class Actor : MonoBehaviour
     private void ApplyMove(Vector2 direction)
     {
         if (direction.x != 0f)
+        {
             FacingDirection = direction.x > 0f ? Vector2.right : Vector2.left;
+            DeductLifespan(_moveCostPerSecond * Time.fixedDeltaTime);
+        }
 
         _rb.linearVelocity = new Vector2(direction.x * moveSpeed, _rb.linearVelocity.y);
     }
@@ -79,6 +123,7 @@ public class Actor : MonoBehaviour
     {
         if (jumpConsumed && _isGrounded)
         {
+            DeductLifespan(_jumpCost);
             float force = CarriedObject != null ? jumpForce * 0.5f : jumpForce;
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, force);
         }

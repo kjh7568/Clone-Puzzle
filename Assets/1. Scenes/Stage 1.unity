@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloneManager
   stageData: {fileID: 11400000, guid: a65a48c66c9490746b3087700aca109d, type: 2}
+  playerActor: {fileID: 1526602728}
   inputRecorder: {fileID: 1893271368}
   clonePrefab: {fileID: 5304507332989068904, guid: 7e59c67b93191474585dba565b4aec61, type: 3}
   cloneSpawnPoint: {fileID: 1893271373}
@@ -790,11 +791,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1132677421 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2284883534801503529, guid: 0a11c8e070a286f46b8cef810b8ced2f, type: 3}
-  m_PrefabInstance: {fileID: 1529703808}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1170324139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3555707829077574740, guid: e1bccd5403e8b5f4cab4346d9e817055, type: 3}
@@ -1212,6 +1208,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe92fc4c9811bdd48aa7f5eef0605cc4, type: 3}
+--- !u!114 &1526602728 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1799230595003279537, guid: fe92fc4c9811bdd48aa7f5eef0605cc4, type: 3}
+  m_PrefabInstance: {fileID: 1526602727}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e1223cc32dd28843abfa33b8cdcea13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
 --- !u!1001 &1529703808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1300,10 +1307,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6667886352412761704, guid: 0a11c8e070a286f46b8cef810b8ced2f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 1132677421}
     - target: {fileID: 7589699110810570431, guid: 0a11c8e070a286f46b8cef810b8ced2f, type: 3}
       propertyPath: m_Name
       value: Canvas

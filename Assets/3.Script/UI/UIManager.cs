@@ -18,6 +18,10 @@ public class UIManager : MonoBehaviour, IInputProvider
     [Header("Clone Buttons")]
     [SerializeField] private Button createCloneButton;
     [SerializeField] private Button endCreationButton;
+    [SerializeField] private GameObject lifespanBar;
+
+    [Header("Clone Count Text")]
+    [SerializeField] private TMP_Text cloneCountText;
 
     [Header("Stage Text")]
     [SerializeField] private TMP_Text stageText;
@@ -89,6 +93,15 @@ public class UIManager : MonoBehaviour, IInputProvider
     {
         if (createCloneButton != null) createCloneButton.gameObject.SetActive(!isRecording);
         if (endCreationButton != null)  endCreationButton.gameObject.SetActive(isRecording);
+        if (lifespanBar != null)    lifespanBar.SetActive(isRecording);
+        if (cloneCountText != null) cloneCountText.gameObject.SetActive(!isRecording);
+        UpdateCloneCountText();
+    }
+
+    private void UpdateCloneCountText()
+    {
+        if (cloneCountText == null || _cloneManager == null) return;
+        cloneCountText.text = $"남은 클론 {_cloneManager.CurrentCloneCount} / {_cloneManager.MaxCloneCount}";
     }
 
     // ── 일시정지 패널 ─────────────────────────────────────────────────────
