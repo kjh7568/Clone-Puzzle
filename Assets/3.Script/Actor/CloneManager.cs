@@ -12,6 +12,9 @@ using UnityEngine;
 /// </summary>
 public class CloneManager : MonoBehaviour
 {
+    [Header("Stage Settings")]
+    [SerializeField] private StageData stageData;
+
     [Header("References")]
     [SerializeField] private InputRecorder inputRecorder;
     [SerializeField] private ClonePlayback clonePrefab;
@@ -41,9 +44,16 @@ public class CloneManager : MonoBehaviour
     /// "클론 생성하기" 버튼 onClick에 연결.
     /// 씬을 리셋하고 플레이어 녹화를 시작한다.
     /// </summary>
+    public bool CanCreateClone => stageData == null || _allRecordedData.Count < stageData.maxCloneCount;
+
     public void OnCreateClone()
     {
         if (_isRecording) return;
+        if (!CanCreateClone)
+        {
+            Debug.Log($"[CloneManager] 클론 수 제한 도달 ({stageData.maxCloneCount}개)");
+            return;
+        }
 
         ResetAll();
         inputRecorder.StartRecording();

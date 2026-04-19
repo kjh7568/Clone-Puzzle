@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cca742ddaa9d644e9893379b8890019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloneManager
+  stageData: {fileID: 11400000, guid: a65a48c66c9490746b3087700aca109d, type: 2}
   inputRecorder: {fileID: 1893271368}
   clonePrefab: {fileID: 5304507332989068904, guid: 7e59c67b93191474585dba565b4aec61, type: 3}
   cloneSpawnPoint: {fileID: 1893271373}
