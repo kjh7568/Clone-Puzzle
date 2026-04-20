@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour, IInputProvider
     [SerializeField] private Button endCreationButton;
     [SerializeField] private GameObject lifespanBar;
 
+    [Header("Carry Button")]
+    [SerializeField] private Button carryButton;
+
     [Header("Clone Count Text")]
     [SerializeField] private TMP_Text cloneCountText;
 
@@ -27,6 +30,7 @@ public class UIManager : MonoBehaviour, IInputProvider
     [SerializeField] private TMP_Text stageText;
 
     private CloneManager _cloneManager;
+    private CarrySystem _carrySystem;
 
     private bool _jumpLatched;
     private bool _interactLatched;
@@ -38,19 +42,42 @@ public class UIManager : MonoBehaviour, IInputProvider
         if (_cloneManager == null)
             Debug.LogWarning("[UIManager] CloneManager를 찾을 수 없습니다.");
 
+        var player = FindFirstObjectByType<PlayerController>();
+        if (player != null) _carrySystem = player.GetComponent<CarrySystem>();
+
         SetCloneButtonState(isRecording: false);
 
         if (stageText != null)
             stageText.text = "현재 스테이지";
     }
 
+    private void Update()
+    {
+        if (carryButton != null && _carrySystem != null)
+            carryButton.gameObject.SetActive(_carrySystem.CanCarry);
+    }
+
     // ── IInputProvider ────────────────────────────────────────────────────
 
     public Vector2 MoveDirection => joystick != null ? joystick.Direction : Vector2.zero;
 
-    public void OnJumpPressed()    => _jumpLatched    = true;
-    public void OnInteractPressed() => _interactLatched = true;
-    public void OnCarryPressed()   => _carryLatched   = true;
+    public void OnJumpPressed()
+    {
+        AudioManager.Instance?.PlaySFX(SfxType.JumpLand);
+        _jumpLatched = true;
+    }
+
+    public void OnInteractPressed()
+    {
+        AudioManager.Instance?.PlaySFX(SfxType.ButtonClick);
+        _interactLatched = true;
+    }
+
+    public void OnCarryPressed()
+    {
+        AudioManager.Instance?.PlaySFX(SfxType.CarryPickup);
+        _carryLatched = true;
+    }
 
     public bool ConsumeJump()
     {
@@ -78,6 +105,7 @@ public class UIManager : MonoBehaviour, IInputProvider
     public void OnCreateClonePressed()
     {
         if (_cloneManager == null) return;
+        AudioManager.Instance?.PlaySFX(SfxType.ButtonClick);
         _cloneManager.OnCreateClone();
         SetCloneButtonState(isRecording: true);
     }
@@ -85,6 +113,7 @@ public class UIManager : MonoBehaviour, IInputProvider
     public void OnEndCreationPressed()
     {
         if (_cloneManager == null) return;
+        AudioManager.Instance?.PlaySFX(SfxType.ButtonClick);
         _cloneManager.OnEndCreation();
         SetCloneButtonState(isRecording: false);
     }
@@ -108,12 +137,14 @@ public class UIManager : MonoBehaviour, IInputProvider
 
     public void OnPausePressed(GameObject pausePanel)
     {
+        AudioManager.Instance?.PlaySFX(SfxType.ButtonClick);
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
     }
 
     public void ClosePanel(GameObject panel)
     {
+        AudioManager.Instance?.PlaySFX(SfxType.ButtonClick);
         panel.SetActive(false);
         Time.timeScale = 1f;
     }
@@ -122,12 +153,14 @@ public class UIManager : MonoBehaviour, IInputProvider
 
     public void OnRestartStage()
     {
+        AudioManager.Instance?.PlaySFX(SfxType.ButtonClick);
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void OnStageSelect()
     {
+        AudioManager.Instance?.PlaySFX(SfxType.ButtonClick);
         Time.timeScale = 1f;
         SceneManager.LoadScene(StageSelectSceneName);
     }

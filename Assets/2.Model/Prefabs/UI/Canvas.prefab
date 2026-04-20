@@ -1426,7 +1426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1082199620598995413
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2376,6 +2376,7 @@ MonoBehaviour:
   createCloneButton: {fileID: 7729787257357141712}
   endCreationButton: {fileID: 5346876196770156724}
   lifespanBar: {fileID: 3455749014703537814}
+  carryButton: {fileID: 4008745985656002024}
   cloneCountText: {fileID: 8836943499514066095}
   stageText: {fileID: 6774820525310982321}
 --- !u!1 &8026511657640617265

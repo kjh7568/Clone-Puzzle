@@ -20,6 +20,8 @@ public class CarrySystem : MonoBehaviour
 
     private Actor _actor;
 
+    public bool CanCarry => _actor.CarriedObject != null || HasNearbyCarryable();
+
     private void Awake()
     {
         _actor = GetComponent<Actor>();
@@ -36,6 +38,17 @@ public class CarrySystem : MonoBehaviour
     }
 
     // ── 들기 ────────────────────────────────────────────────────────────────
+
+    private bool HasNearbyCarryable()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, pickupRadius, carryableLayer);
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.TryGetComponent<ICarryable>(out var c) && !c.IsCarried)
+                return true;
+        }
+        return false;
+    }
 
     private void TryPickUp()
     {

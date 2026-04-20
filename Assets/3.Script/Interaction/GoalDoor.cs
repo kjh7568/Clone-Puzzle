@@ -20,6 +20,7 @@ public class GoalDoor : MonoBehaviour
             Debug.LogWarning("[GoalDoor] StageManager 인스턴스 없음");
             return;
         }
+        AudioManager.Instance?.PlaySFX(SfxType.StageCleared);
         StageManager.Instance.ClearStage();
     }
 }
