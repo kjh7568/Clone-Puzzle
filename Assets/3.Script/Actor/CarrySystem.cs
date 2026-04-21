@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -14,12 +15,13 @@ public class CarrySystem : MonoBehaviour
 
     [Header("Put Down")]
     [SerializeField] private float putDownDistance = 1f;
-    [SerializeField] private float boxHalfWidth = 0.5f;   // 상자 콜라이더 반폭 (1x1 기준 0.5)
-    [SerializeField] private float minPutDownSpace = 0.1f; // 벽과 상자 사이 최소 여유 공간
+    [SerializeField] private float boxHalfWidth = 0.5f;
+    [SerializeField] private float minPutDownSpace = 0.1f;
     [SerializeField] private LayerMask obstacleLayer;
 
     private Actor _actor;
 
+    public event Action OnPickedUp;
     public bool CanCarry => _actor.CarriedObject != null || HasNearbyCarryable();
 
     private void Awake()
@@ -75,6 +77,7 @@ public class CarrySystem : MonoBehaviour
         nearest.OnPickedUp(_actor);
         _actor.SetCarriedObject(nearest);
         _actor.DeductLifespan(_actor.CarryCost);
+        OnPickedUp?.Invoke();
     }
 
     // ── 내려놓기 ────────────────────────────────────────────────────────────
@@ -82,21 +85,19 @@ public class CarrySystem : MonoBehaviour
     private void PutDown()
     {
         Vector2 origin    = transform.position;
-        Vector2 direction = _actor.FacingDirection; // left or right only
+        Vector2 direction = _actor.FacingDirection;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, direction, putDownDistance, obstacleLayer);
 
         float placeDistance;
         if (hit.collider == null)
         {
-            // 앞 1칸까지 장애물 없음 → 목표 거리에 배치
             placeDistance = putDownDistance;
         }
         else
         {
-            // 벽 직전에 상자 절반 + 여유 공간만큼 안쪽에 배치
             placeDistance = hit.distance - boxHalfWidth - minPutDownSpace;
-            if (placeDistance <= 0f) return; // 공간 부족 → 내려놓지 않음
+            if (placeDistance <= 0f) return;
         }
 
         Vector2 targetPos = origin + direction * placeDistance;
@@ -106,15 +107,33 @@ public class CarrySystem : MonoBehaviour
 
     // ── Gizmos ──────────────────────────────────────────────────────────────
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
+        // 픽업 반경
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, pickupRadius);
 
-        Vector2 dir      = Application.isPlaying ? _actor.FacingDirection : Vector2.right;
+        // 내려놓기 예상 위치
+        Vector2 dir      = Application.isPlaying && _actor != null
+                           ? _actor.FacingDirection
+                           : Vector2.right;
         Vector2 frontPos = (Vector2)transform.position + dir * putDownDistance;
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(frontPos, 0.1f);
         Gizmos.DrawLine(transform.position, frontPos);
+
+        // 픽업 범위 내 CarryBox 포물선 미리보기
+        Actor selfActor = _actor != null ? _actor : GetComponent<Actor>();
+        if (selfActor == null || selfActor.CarryAnchor == null) return;
+
+        CarryBox[] allBoxes = UnityEngine.Object.FindObjectsByType<CarryBox>(FindObjectsSortMode.None);
+        Vector3 anchorPos   = selfActor.CarryAnchor.position;
+
+        foreach (CarryBox box in allBoxes)
+        {
+            if (box == null) continue;
+            if (Vector3.Distance(transform.position, box.transform.position) <= pickupRadius)
+                box.DrawArcGizmo(anchorPos);
+        }
     }
 }

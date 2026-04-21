@@ -180,6 +180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e3c85f3b352a9544971fd074cdc0f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarryBox
+  arcHeight: 0.6
+  arcDuration: 1.2
 --- !u!114 &8945178577334729282
 MonoBehaviour:
   m_ObjectHideFlags: 0

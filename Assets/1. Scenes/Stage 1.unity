@@ -1573,7 +1573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   audioData: {fileID: 11400000, guid: b7ab4cdbbb001ce4a9f173681606ecd5, type: 2}
-  bgmVolume: 0.7
+  bgmVolume: 0.1
   sfxVolume: 1
 --- !u!4 &1982668470
 Transform:
@@ -1658,22 +1658,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4074087567624994532, guid: 0c1547372adb2cd4ba1e8f8c1d3814d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7262568344582550864, guid: 0c1547372adb2cd4ba1e8f8c1d3814d6, type: 3}
-      propertyPath: m_Color.a
-      value: 0.4627451
-      objectReference: {fileID: 0}
-    - target: {fileID: 7262568344582550864, guid: 0c1547372adb2cd4ba1e8f8c1d3814d6, type: 3}
-      propertyPath: m_Color.b
-      value: 0.9779241
-      objectReference: {fileID: 0}
-    - target: {fileID: 7262568344582550864, guid: 0c1547372adb2cd4ba1e8f8c1d3814d6, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7262568344582550864, guid: 0c1547372adb2cd4ba1e8f8c1d3814d6, type: 3}
-      propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

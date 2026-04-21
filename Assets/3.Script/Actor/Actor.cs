@@ -40,6 +40,7 @@ public class Actor : MonoBehaviour
 
     public float LifespanRatio => _maxLifespan > 0f ? _lifespan / _maxLifespan : 1f;
     public float CarryCost => _carryCost;
+    public bool IsGrounded => _isGrounded;
 
     protected Rigidbody2D Rb => _rb;
 
