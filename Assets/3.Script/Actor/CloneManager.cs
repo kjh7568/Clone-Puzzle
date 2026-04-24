@@ -47,6 +47,7 @@ public class CloneManager : MonoBehaviour
     /// </summary>
     public bool CanCreateClone => stageData == null || _allRecordedData.Count < stageData.maxCloneCount;
     public bool EnableCarry    => stageData == null || stageData.enableCarry;
+    public bool EnableClone    => stageData == null || stageData.enableClone;
     public int CurrentCloneCount => _allRecordedData.Count;
     public int RemainingCloneCount => stageData == null ? 0 : stageData.maxCloneCount - _allRecordedData.Count;
     public int MaxCloneCount => stageData == null ? 0 : stageData.maxCloneCount;

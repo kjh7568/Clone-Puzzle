@@ -9,6 +9,7 @@ public class StageData : ScriptableObject
 
     [Header("Features")]
     public bool enableCarry = true;
+    public bool enableClone = true;
 
     [Header("Lifespan")]
     public float maxLifespan = 100f;

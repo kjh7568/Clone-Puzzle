@@ -123,10 +123,11 @@ public class UIManager : MonoBehaviour, IInputProvider
 
     private void SetCloneButtonState(bool isRecording)
     {
-        if (createCloneButton != null) createCloneButton.gameObject.SetActive(!isRecording);
-        if (endCreationButton != null)  endCreationButton.gameObject.SetActive(isRecording);
-        if (lifespanBar != null)    lifespanBar.SetActive(isRecording);
-        if (cloneCountText != null) cloneCountText.gameObject.SetActive(!isRecording);
+        bool cloneFeatureOn = _cloneManager == null || _cloneManager.EnableClone;
+        if (createCloneButton != null) createCloneButton.gameObject.SetActive(cloneFeatureOn && !isRecording);
+        if (endCreationButton != null)  endCreationButton.gameObject.SetActive(cloneFeatureOn && isRecording);
+        if (lifespanBar != null)    lifespanBar.SetActive(cloneFeatureOn && isRecording);
+        if (cloneCountText != null) cloneCountText.gameObject.SetActive(cloneFeatureOn && !isRecording);
         UpdateCloneCountText();
     }
 

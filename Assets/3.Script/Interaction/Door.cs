@@ -68,12 +68,10 @@ public class Door : MonoBehaviour, IResettable
         if (!_isOpen) return;
         _isOpen = false;
 
+        if (_collider != null) _collider.enabled = true;
+
         transform.DOMove(_closedPosition, duration).SetEase(ease)
-            .OnComplete(() =>
-            {
-                if (_collider != null) _collider.enabled = true;
-                OnClosed.Invoke();
-            });
+            .OnComplete(() => OnClosed.Invoke());
     }
 
     /// <summary>현재 열려 있는지 반환.</summary>
