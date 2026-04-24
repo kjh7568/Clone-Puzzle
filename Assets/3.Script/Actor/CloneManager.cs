@@ -92,7 +92,7 @@ public class CloneManager : MonoBehaviour
 
     private void ResetAll()
     {
-        // 1. 클론이 들고 있는 오브젝트를 먼저 분리 (Destroy 전에 해야 CarryBox가 살아남음)
+        // 1. 클론이 들고 있는 오브젝트를 먼저 분리 (Destroy 전에 해야 Box가 살아남음)
         foreach (var clone in _activeClones)
         {
             if (clone != null && clone.CarriedObject != null)

@@ -13,7 +13,13 @@
       "mcp__UnityMCP__read_console",
       "mcp__UnityMCP__execute_code",
       "mcp__UnityMCP__refresh_unity",
-      "mcp__UnityMCP__manage_camera"
+      "mcp__UnityMCP__manage_camera",
+      "Bash(find \"D:/GitHub/Clone Puzzle/Assets/3.Script\" -type f -name \"*.cs\" -exec grep -l \"interface IInputProvider\\\\|struct FrameInput\\\\|interface ICarryable\\\\|interface IRecordable\" {} \\\\;)",
+      "Bash(xargs grep *)",
+      "mcp__UnityMCP__manage_animation",
+      "mcp__UnityMCP__find_gameobjects",
+      "mcp__UnityMCP__manage_components",
+      "mcp__UnityMCP__manage_scene"
     ]
   },
   "enabledMcpjsonServers": [

@@ -1,14 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Actor가 들고 다닐 수 있는 상자.
-/// ICarryable을 구현하며 OnPickedUp/OnPutDown에서 물리·콜라이더 상태를 전환한다.
-/// 픽업 시 Quadratic Bezier 포물선으로 CarryAnchor까지 이동한다.
-/// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class CarryBox : MonoBehaviour, ICarryable, IResettable
+public class Box : MonoBehaviour, ICarryable, IResettable
 {
     [Header("Arc Pickup")]
     [SerializeField] private float arcHeight   = 1.5f;
@@ -19,6 +14,8 @@ public class CarryBox : MonoBehaviour, ICarryable, IResettable
     private bool          _isCarried;
     private Actor         _carrier;
     private Coroutine     _arcCoroutine;
+    private int           _carryableLayer;
+    private int           _blockingCount;
 
     public float ArcHeight => arcHeight;
 
@@ -35,8 +32,9 @@ public class CarryBox : MonoBehaviour, ICarryable, IResettable
         _carrier   = carrier;
         _isCarried = true;
 
-        _rb.bodyType        = RigidbodyType2D.Kinematic;
-        _rb.linearVelocity  = Vector2.zero;
+        _rb.bodyType       = RigidbodyType2D.Kinematic;
+        _rb.linearVelocity = Vector2.zero;
+        _rb.constraints    = RigidbodyConstraints2D.FreezeRotation;
 
         Collider2D carrierCol = carrier.GetComponent<Collider2D>();
         if (carrierCol != null) Physics2D.IgnoreCollision(_col, carrierCol, true);
@@ -67,6 +65,50 @@ public class CarryBox : MonoBehaviour, ICarryable, IResettable
         _isCarried = false;
     }
 
+    // ── 스택 밀기 차단 ───────────────────────────────────────────
+
+    private void FixedUpdate()
+    {
+        if (_isCarried) return;
+
+        int count = CountBlockingNeighbors();
+        if (count == _blockingCount) return;
+
+        _blockingCount = count;
+        UpdateConstraints();
+    }
+
+    private int CountBlockingNeighbors()
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            transform.position,
+            new Vector2(_col.bounds.size.x + 0.2f, _col.bounds.size.y + 0.2f),
+            0f,
+            1 << _carryableLayer);
+
+        int count = 0;
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.gameObject == gameObject) continue;
+
+            float dy = hit.transform.position.y - transform.position.y;
+            float dx = Mathf.Abs(hit.transform.position.x - transform.position.x);
+
+            bool isAbove = dy > 0.3f;
+            bool isSide  = dx > 0.3f && Mathf.Abs(dy) < 0.5f;
+
+            if (isAbove || isSide) count++;
+        }
+        return count;
+    }
+
+    private void UpdateConstraints()
+    {
+        _rb.constraints = _blockingCount > 0
+            ? RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX
+            : RigidbodyConstraints2D.FreezeRotation;
+    }
+
     // ── Arc ─────────────────────────────────────────────────────
 
     private IEnumerator ArcMoveToAnchor(Actor carrier)
@@ -94,13 +136,12 @@ public class CarryBox : MonoBehaviour, ICarryable, IResettable
 
     // ── Gizmo ───────────────────────────────────────────────────
 
-    /// <summary>CarrySystem.OnDrawGizmos에서 픽업 범위 내일 때 외부 호출.</summary>
     public void DrawArcGizmo(Vector3 anchorPos)
     {
         const int segments = 20;
-        Vector3 p0   = transform.position;
-        Vector3 p2   = anchorPos;
-        Vector3 p1   = (p0 + p2) * 0.5f + Vector3.up * arcHeight;
+        Vector3 p0 = transform.position;
+        Vector3 p2 = anchorPos;
+        Vector3 p1 = (p0 + p2) * 0.5f + Vector3.up * arcHeight;
 
         Gizmos.color = Color.green;
         Vector3 prev = p0;
@@ -141,18 +182,21 @@ public class CarryBox : MonoBehaviour, ICarryable, IResettable
             _carrier   = null;
         }
 
-        transform.position    = _initialPosition;
-        _rb.bodyType          = RigidbodyType2D.Dynamic;
-        _rb.linearVelocity    = Vector2.zero;
-        _col.enabled          = true;
+        transform.position = _initialPosition;
+        _rb.bodyType       = RigidbodyType2D.Dynamic;
+        _rb.linearVelocity = Vector2.zero;
+        _col.enabled       = true;
+        _blockingCount     = 0;
+        UpdateConstraints();
     }
 
     // ── Unity ───────────────────────────────────────────────────
 
     private void Awake()
     {
-        _rb               = GetComponent<Rigidbody2D>();
-        _col              = GetComponent<BoxCollider2D>();
-        _initialPosition  = transform.position;
+        _rb             = GetComponent<Rigidbody2D>();
+        _col            = GetComponent<BoxCollider2D>();
+        _initialPosition = transform.position;
+        _carryableLayer = LayerMask.NameToLayer("Carryable");
     }
 }

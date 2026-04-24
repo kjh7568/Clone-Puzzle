@@ -126,10 +126,10 @@ public class CarrySystem : MonoBehaviour
         Actor selfActor = _actor != null ? _actor : GetComponent<Actor>();
         if (selfActor == null || selfActor.CarryAnchor == null) return;
 
-        CarryBox[] allBoxes = UnityEngine.Object.FindObjectsByType<CarryBox>(FindObjectsSortMode.None);
-        Vector3 anchorPos   = selfActor.CarryAnchor.position;
+        Box[] allBoxes    = UnityEngine.Object.FindObjectsByType<Box>(FindObjectsSortMode.None);
+        Vector3 anchorPos = selfActor.CarryAnchor.position;
 
-        foreach (CarryBox box in allBoxes)
+        foreach (Box box in allBoxes)
         {
             if (box == null) continue;
             if (Vector3.Distance(transform.position, box.transform.position) <= pickupRadius)

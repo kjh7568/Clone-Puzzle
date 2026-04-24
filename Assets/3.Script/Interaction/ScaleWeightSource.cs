@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// 저울에 무게를 제공하는 오브젝트에 붙이는 컴포넌트.
 /// 매 FixedUpdate마다 아래를 체크해 ScalePlatform만 있으면 등록, 다른 지면도 있으면 해제.
-/// Actor는 CarriedObject 여부로 weight 2 반환, CarryBox는 들렸을 때 해제.
+/// Actor는 CarriedObject 여부로 weight 2 반환, Box는 들렸을 때 해제.
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
 public class ScaleWeightSource : MonoBehaviour
