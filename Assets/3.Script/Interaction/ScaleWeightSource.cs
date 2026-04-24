@@ -40,7 +40,7 @@ public class ScaleWeightSource : MonoBehaviour
                 Unregister();
                 _currentPlatform = found;
             }
-            found.Register(this, GetWeight());
+            found.Register(this, GetWeight() + GetWeightOnTop());
         }
         else
         {
@@ -74,11 +74,28 @@ public class ScaleWeightSource : MonoBehaviour
         return (scalePlatform != null && !hasOtherGround) ? scalePlatform : null;
     }
 
-    private int GetWeight()
+    public int GetWeight()
     {
         if (_actor != null)
             return 1 + (_actor.CarriedObject != null ? 1 : 0);
         return 1;
+    }
+
+    private int GetWeightOnTop()
+    {
+        Bounds b = _collider.bounds;
+        Vector2 center = new Vector2(b.center.x, b.max.y + 0.1f);
+        Vector2 size   = new Vector2(b.size.x * 0.8f, 0.2f);
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f);
+        int total = 0;
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.gameObject == gameObject) continue;
+            ScaleWeightSource ws = hit.GetComponent<ScaleWeightSource>();
+            if (ws != null) total += ws.GetWeight();
+        }
+        return total;
     }
 
     private void Unregister()
