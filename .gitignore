@@ -102,3 +102,9 @@ InitTestScene*.unity*
 node_modules/
 package.json
 package-lock.json
+
+# Claude Code
+.claude/worktrees/
+
+# Bash crash dump
+bash.exe.stackdump
