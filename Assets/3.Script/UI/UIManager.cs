@@ -54,7 +54,10 @@ public class UIManager : MonoBehaviour, IInputProvider
     private void Update()
     {
         if (carryButton != null && _carrySystem != null)
-            carryButton.gameObject.SetActive(_carrySystem.CanCarry);
+        {
+            bool carryFeatureOn = _cloneManager == null || _cloneManager.EnableCarry;
+            carryButton.gameObject.SetActive(carryFeatureOn && _carrySystem.CanCarry);
+        }
     }
 
     // ── IInputProvider ────────────────────────────────────────────────────

@@ -7,6 +7,9 @@ public class StageData : ScriptableObject
     [Min(1)]
     public int maxCloneCount = 3;
 
+    [Header("Features")]
+    public bool enableCarry = true;
+
     [Header("Lifespan")]
     public float maxLifespan = 100f;
     public float moveCostPerSecond = 10f;

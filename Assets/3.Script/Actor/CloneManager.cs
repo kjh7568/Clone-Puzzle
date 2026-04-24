@@ -46,6 +46,7 @@ public class CloneManager : MonoBehaviour
     /// 씬을 리셋하고 플레이어 녹화를 시작한다.
     /// </summary>
     public bool CanCreateClone => stageData == null || _allRecordedData.Count < stageData.maxCloneCount;
+    public bool EnableCarry    => stageData == null || stageData.enableCarry;
     public int CurrentCloneCount => _allRecordedData.Count;
     public int RemainingCloneCount => stageData == null ? 0 : stageData.maxCloneCount - _allRecordedData.Count;
     public int MaxCloneCount => stageData == null ? 0 : stageData.maxCloneCount;
