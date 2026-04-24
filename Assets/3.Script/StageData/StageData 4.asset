@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 131a4d789d48dd1408929678f1d417dd, type: 3}
-  m_Name: StageData_1
+  m_Name: StageData 4
   m_EditorClassIdentifier: Assembly-CSharp::StageData
   maxCloneCount: 2
   maxLifespan: 100

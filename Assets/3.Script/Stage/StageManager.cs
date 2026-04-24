@@ -27,11 +27,5 @@ public class StageManager : MonoBehaviour
 
         Debug.Log("[StageManager] 스테이지 클리어!");
         OnStageCleared.Invoke();
-
-        int next = SceneManager.GetActiveScene().buildIndex + 1;
-        if (next < SceneManager.sceneCountInBuildSettings)
-            SceneManager.LoadScene(next);
-        else
-            Debug.Log("[StageManager] 마지막 스테이지 클리어!");
     }
 }

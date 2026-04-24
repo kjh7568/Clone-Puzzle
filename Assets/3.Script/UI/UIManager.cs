@@ -29,6 +29,9 @@ public class UIManager : MonoBehaviour, IInputProvider
     [Header("Stage Text")]
     [SerializeField] private TMP_Text stageText;
 
+    [Header("Clear Panel")]
+    [SerializeField] private GameObject clearPanel;
+
     private CloneManager _cloneManager;
     private CarrySystem _carrySystem;
 
@@ -154,6 +157,22 @@ public class UIManager : MonoBehaviour, IInputProvider
     }
 
     // ── 씬 전환 ───────────────────────────────────────────────────────────
+
+    public void ShowClearPanel()
+    {
+        if (clearPanel != null) clearPanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void OnNextStage()
+    {
+        AudioManager.Instance?.PlaySFX(SfxType.ButtonClick);
+        if (clearPanel != null) clearPanel.SetActive(false);
+        Time.timeScale = 1f;
+        int next = SceneManager.GetActiveScene().buildIndex + 1;
+        if (next < SceneManager.sceneCountInBuildSettings)
+            SceneManager.LoadScene(next);
+    }
 
     public void OnRestartStage()
     {
