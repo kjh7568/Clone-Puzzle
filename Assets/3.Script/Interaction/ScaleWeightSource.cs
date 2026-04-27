@@ -92,6 +92,8 @@ public class ScaleWeightSource : MonoBehaviour
         foreach (Collider2D hit in hits)
         {
             if (hit.gameObject == gameObject) continue;
+            ICarryable carryable = hit.GetComponent<ICarryable>();
+            if (carryable != null && carryable.IsCarried) continue;
             ScaleWeightSource ws = hit.GetComponent<ScaleWeightSource>();
             if (ws != null) total += ws.GetWeight();
         }

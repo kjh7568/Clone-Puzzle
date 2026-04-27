@@ -45,8 +45,8 @@ public class PlayerAnimatorController : MonoBehaviour
         _animator.SetFloat(ParamSpeed, Mathf.Abs(vx));
         _animator.SetBool(ParamIsGrounded, _actor.IsGrounded);
 
-        if (vx < -0.01f)       _spriteRenderer.flipX = true;
-        else if (vx > 0.01f)   _spriteRenderer.flipX = false;
+        if (_actor.FacingDirection.x < 0f)      _spriteRenderer.flipX = true;
+        else if (_actor.FacingDirection.x > 0f) _spriteRenderer.flipX = false;
     }
 
     public void TriggerPickup()

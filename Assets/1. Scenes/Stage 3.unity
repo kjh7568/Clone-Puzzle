@@ -1934,7 +1934,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7526909524521882236, guid: fe92fc4c9811bdd48aa7f5eef0605cc4, type: 3}
   m_PrefabInstance: {fileID: 1526602727}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1982668468
+--- !u!1 &2036606348
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1942,38 +1942,35 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1982668470}
-  - component: {fileID: 1982668469}
-  - component: {fileID: 1982668471}
+  - component: {fileID: 2036606350}
+  - component: {fileID: 2036606349}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: BGM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1982668469
+--- !u!114 &2036606349
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1982668468}
+  m_GameObject: {fileID: 2036606348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18c2955a976a902489fe67d3e39d5840, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ba59bc2b118286469b379ce85b7f6a1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  audioData: {fileID: 11400000, guid: b7ab4cdbbb001ce4a9f173681606ecd5, type: 2}
-  bgmVolume: 0.1
-  sfxVolume: 1
---- !u!4 &1982668470
+  m_EditorClassIdentifier: Assembly-CSharp::SceneBGM
+  bgmType: 1
+--- !u!4 &2036606350
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1982668468}
+  m_GameObject: {fileID: 2036606348}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -1982,19 +1979,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1982668471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1982668468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ba59bc2b118286469b379ce85b7f6a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneBGM
-  bgmType: 1
 --- !u!1001 &2037597612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2198,6 +2182,6 @@ SceneRoots:
   - {fileID: 4558272585812032935}
   - {fileID: 261085806}
   - {fileID: 54361685}
-  - {fileID: 1982668470}
   - {fileID: 1881402485}
   - {fileID: 289754222}
+  - {fileID: 2036606350}

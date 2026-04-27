@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 public class UIManager : MonoBehaviour, IInputProvider
 {
-    private const string StageSelectSceneName = "StageSelect";
+    private const string StageSelectSceneName = "Stage Select";
 
     [Header("Input")]
     [SerializeField] private VirtualJoystick joystick;

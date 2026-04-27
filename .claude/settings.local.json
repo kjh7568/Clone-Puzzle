@@ -19,7 +19,9 @@
       "mcp__UnityMCP__manage_animation",
       "mcp__UnityMCP__find_gameobjects",
       "mcp__UnityMCP__manage_components",
-      "mcp__UnityMCP__manage_scene"
+      "mcp__UnityMCP__manage_scene",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   },
   "enabledMcpjsonServers": [

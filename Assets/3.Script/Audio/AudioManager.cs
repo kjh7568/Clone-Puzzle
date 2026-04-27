@@ -2,7 +2,20 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance { get; private set; }
+    private static AudioManager _instance;
+
+    public static AudioManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                var go = new GameObject("AudioManager");
+                _instance = go.AddComponent<AudioManager>();
+            }
+            return _instance;
+        }
+    }
 
     [SerializeField] private AudioData audioData;
 
@@ -16,19 +29,28 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        Instance = this;
+        _instance = this;
         DontDestroyOnLoad(gameObject);
 
-        _bgmSource = gameObject.AddComponent<AudioSource>();
-        _bgmSource.loop = true;
-        _bgmSource.volume = bgmVolume;
+        // 이미 붙어있는 AudioSource 재사용, 없으면 추가
+        var existingSources = GetComponents<AudioSource>();
+        _bgmSource = existingSources.Length > 0 ? existingSources[0] : gameObject.AddComponent<AudioSource>();
+        _sfxSource = existingSources.Length > 1 ? existingSources[1] : gameObject.AddComponent<AudioSource>();
 
-        _sfxSource = gameObject.AddComponent<AudioSource>();
+        _bgmSource.loop = true;
+        _bgmSource.playOnAwake = false;
+        _sfxSource.playOnAwake = false;
+
+        // 저장된 볼륨 적용 (파일 없으면 인스펙터 기본값 유지)
+        var progress = StageProgressManager.Instance;
+        bgmVolume = progress.BgmVolume;
+        sfxVolume = progress.SfxVolume;
+        _bgmSource.volume = bgmVolume;
         _sfxSource.volume = sfxVolume;
     }
 
@@ -47,6 +69,7 @@ public class AudioManager : MonoBehaviour
 
         if (clip == null) { Debug.LogWarning($"[AudioManager] BGM 클립 없음: {type}"); return; }
 
+        _bgmSource.Stop();
         _currentBgm = type;
         _bgmSource.clip = clip;
         _bgmSource.Play();
@@ -82,6 +105,9 @@ public class AudioManager : MonoBehaviour
         _sfxSource.PlayOneShot(clip, sfxVolume);
         Debug.Log($"[AudioManager] SFX: {type}");
     }
+
+    public float BgmVolume => bgmVolume;
+    public float SfxVolume => sfxVolume;
 
     public void SetBGMVolume(float volume)
     {
